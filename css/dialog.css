@@ -1,0 +1,239 @@
+.menu {
+  position: fixed;
+  z-index: 45;
+  width: 220px;
+  padding: 6px;
+  background: #fffdfb;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  box-shadow: 0 16px 40px rgba(28, 25, 23, 0.16);
+}
+
+.swatches {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 6px;
+  padding: 6px;
+}
+
+.swatch {
+  width: 28px;
+  height: 28px;
+  justify-self: center;
+  border-radius: 50%;
+  border: 2px solid #fff;
+  box-shadow: 0 0 0 1px rgba(28, 25, 23, 0.16);
+  padding: 0;
+}
+
+.swatch.is-active {
+  box-shadow: 0 0 0 2px var(--accent);
+}
+
+.menu-color {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 6px 8px 8px;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.menu-color input[type="color"] {
+  width: 42px;
+  height: 28px;
+  padding: 0;
+  border: 1px solid var(--line);
+  background: #fff;
+  border-radius: 8px;
+}
+
+.menu-item {
+  display: block;
+  width: 100%;
+  text-align: left;
+  background: transparent;
+  border: 0;
+  border-radius: 8px;
+  padding: 9px 10px;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.menu-item:hover {
+  background: #f4eee6;
+}
+
+.menu-item.danger {
+  color: var(--danger);
+}
+
+dialog {
+  border: 0;
+  padding: 0;
+  background: transparent;
+  color: var(--ink);
+  max-width: calc(100vw - 24px);
+}
+
+dialog::backdrop {
+  background: rgba(28, 25, 23, 0.45);
+}
+
+.dialog-card {
+  width: min(440px, calc(100vw - 24px));
+  margin: 0;
+  padding: 20px;
+  background: var(--surface);
+  border-radius: 18px;
+  box-shadow: 0 24px 60px rgba(28, 25, 23, 0.22);
+}
+
+#boards-dialog .dialog-card {
+  width: min(560px, calc(100vw - 24px));
+}
+
+.dialog-card h2 {
+  margin: 0 0 14px;
+  font-family: var(--font-display);
+  font-size: 28px;
+  font-weight: 600;
+}
+
+.dialog-card p {
+  margin: 0;
+  color: var(--muted);
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.field input[type="text"] {
+  font-size: 16px;
+  font-weight: 500;
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px solid var(--line);
+  background: #fff;
+}
+
+.dialog-preview {
+  margin-top: 12px;
+}
+
+.dialog-actions {
+  display: flex;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.dialog-actions-split {
+  justify-content: flex-start;
+}
+
+.boards-list {
+  display: flex;
+  flex-direction: column;
+  max-height: min(420px, 50vh);
+  overflow: auto;
+}
+
+.board-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.board-open {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+  padding: 4px 2px;
+  border: 0;
+  background: transparent;
+  text-align: left;
+}
+
+.board-open-title {
+  font-weight: 800;
+  overflow-wrap: anywhere;
+}
+
+.board-row.is-active .board-open-title {
+  color: var(--accent);
+}
+
+.board-open-meta {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.selection-bar {
+  position: fixed;
+  z-index: 25;
+  left: 50%;
+  bottom: 16px;
+  transform: translateX(-50%);
+  width: min(720px, calc(100% - 20px));
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 12px;
+  background: #fffdfb;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  box-shadow: 0 16px 40px rgba(28, 25, 23, 0.16);
+}
+
+.selection-name {
+  margin: 0;
+  flex: 1;
+  min-width: 0;
+  font-weight: 800;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.selection-move {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 800;
+  color: var(--muted);
+}
+
+.selection-move select {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--ink);
+  border: 1px solid var(--line);
+  background: #fff;
+  border-radius: 8px;
+  padding: 6px 8px;
+  max-width: 140px;
+}
+
+@media (max-width: 640px) {
+  .selection-bar {
+    flex-wrap: wrap;
+  }
+
+  .selection-name {
+    flex-basis: 100%;
+  }
+}
