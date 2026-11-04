@@ -1,0 +1,16 @@
+:root {
+  --bg: #e7e0d4;
+  --surface: #fbf7f0;
+  --ink: #1c1917;
+  --muted: #6f675e;
+  --line: #e3d8c8;
+  --accent: #b8421a;
+  --accent-ink: #fff8f4;
+  --danger: #9f1239;
+  --shadow: 0 12px 32px rgba(48, 32, 16, 0.08);
+  --radius: 16px;
+  --label-width: 112px;
+  --font-ui: "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Noto Sans JP", "Noto Sans CJK JP", "Yu Gothic", "Yu Gothic UI", "Meiryo", "WenQuanYi Micro Hei", "Droid Sans Fallback", sans-serif;
+  --font-display: "Iowan Old Style", "Palatino Linotype", Palatino, "Hiragino Mincho ProN", "Yu Mincho", "Noto Serif CJK JP", Georgia, "WenQuanYi Micro Hei", serif;
+  color-scheme: light;
+}

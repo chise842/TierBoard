@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#e7e0d4">
+  <title>TierBoard</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect fill='%23ff7f7f' y='3' width='32' height='6' rx='2'/%3E%3Crect fill='%23ffbf7f' y='13' width='32' height='6' rx='2'/%3E%3Crect fill='%23ffdf7f' y='23' width='32' height='6' rx='2'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="css/tokens.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/header.css">
+  <link rel="stylesheet" href="css/board.css">
+  <link rel="stylesheet" href="css/dialog.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <span class="brand-mark" aria-hidden="true"></span>
+      <h1 class="brand-name">TierBoard</h1>
+    </div>
+    <div class="topbar-actions">
+      <button type="button" class="btn" id="btn-new">新規</button>
+      <button type="button" class="btn" id="btn-boards">一覧</button>
+      <button type="button" class="btn" id="btn-import">読み込む</button>
+      <button type="button" class="btn" id="btn-export-json">JSON</button>
+      <button type="button" class="btn btn-primary" id="btn-export-png">画像で保存</button>
+      <input type="file" id="import-file" accept="application/json,.json" hidden>
+    </div>
+  </header>
+
+  <main class="page">
+    <section class="sheet" aria-label="ティア表">
+      <div class="sheet-head">
+        <input id="board-title" class="board-title" type="text" maxlength="60" placeholder="無題のティア表" aria-label="タイトル" autocomplete="off" spellcheck="false">
+        <p class="sheet-hint">項目はドラッグで配置します。ティア名は直接編集でき、左のつまみか「⋯」で並べ替えられます。</p>
+      </div>
+      <div id="tier-list" class="tier-list"></div>
+      <button type="button" class="add-tier" id="btn-add-tier">＋ ティアを追加</button>
+    </section>
+
+    <section class="pool" aria-label="未分類">
+      <div class="pool-head">
+        <h2>未分類</h2>
+        <button type="button" class="btn btn-ghost" id="btn-unrank" hidden>すべて未分類へ戻す</button>
+      </div>
+      <div id="pool-items" class="pool-items" data-drop-pool></div>
+      <form id="composer" class="composer">
+        <input id="composer-label" type="text" maxlength="40" placeholder="項目名を入力" aria-label="項目名" autocomplete="off">
+        <button type="button" class="btn" id="btn-pick-image">画像</button>
+        <button type="submit" class="btn btn-primary">追加</button>
+        <input type="file" id="composer-file" accept="image/png,image/jpeg,image/gif,image/webp,image/bmp,image/avif" hidden>
+      </form>
+      <div id="composer-preview" class="composer-preview" hidden>
+        <img id="composer-preview-img" alt="">
+        <button type="button" class="btn btn-ghost" id="composer-clear-image">画像を外す</button>
+      </div>
+    </section>
+  </main>
+
+  <div id="selection-bar" class="selection-bar" hidden>
+    <p id="selection-name" class="selection-name"></p>
+    <label class="selection-move">移動先
+      <select id="selection-target" aria-label="移動先"></select>
+    </label>
+    <button type="button" class="btn" id="selection-edit">編集</button>
+    <button type="button" class="btn danger-text" id="selection-delete">削除</button>
+    <button type="button" class="btn btn-ghost" id="selection-clear" aria-label="選択を解除">×</button>
+  </div>
+
+  <div id="tier-menu" class="menu" role="menu" hidden>
+    <div class="swatches" id="swatches" role="group" aria-label="ティアの色"></div>
+    <label class="menu-color">カスタム色
+      <input type="color" id="tier-color" aria-label="カスタム色">
+    </label>
+    <button type="button" class="menu-item" data-menu="rename">名前を編集</button>
+    <button type="button" class="menu-item" data-menu="up">上へ移動</button>
+    <button type="button" class="menu-item" data-menu="down">下へ移動</button>
+    <button type="button" class="menu-item danger" data-menu="delete">ティアを削除</button>
+  </div>
+
+  <dialog id="item-dialog" aria-labelledby="item-dialog-title">
+    <form class="dialog-card" id="item-form">
+      <h2 id="item-dialog-title">項目を編集</h2>
+      <label class="field">名前
+        <input id="item-label" type="text" maxlength="40" autocomplete="off">
+      </label>
+      <div id="dialog-preview" class="dialog-preview" hidden>
+        <img id="dialog-preview-img" alt="">
+      </div>
+      <div class="dialog-actions dialog-actions-split">
+        <button type="button" class="btn" id="item-replace-image">画像を変更</button>
+        <button type="button" class="btn btn-ghost" id="item-remove-image">画像を外す</button>
+      </div>
+      <div class="dialog-actions">
+        <button type="button" class="btn" id="item-cancel">キャンセル</button>
+        <button type="submit" class="btn btn-primary">保存</button>
+      </div>
+      <input type="file" id="item-file" accept="image/png,image/jpeg,image/gif,image/webp,image/bmp,image/avif" hidden>
+    </form>
+  </dialog>
+
+  <dialog id="boards-dialog" aria-labelledby="boards-dialog-title">
+    <div class="dialog-card">
+      <h2 id="boards-dialog-title">ボード一覧</h2>
+      <div id="boards-list" class="boards-list"></div>
+      <div class="dialog-actions">
+        <button type="button" class="btn" id="boards-close">閉じる</button>
+      </div>
+    </div>
+  </dialog>
+
+  <dialog id="confirm-dialog" aria-labelledby="confirm-title">
+    <form class="dialog-card" method="dialog">
+      <h2 id="confirm-title"></h2>
+      <p id="confirm-body"></p>
+      <div class="dialog-actions">
+        <button type="submit" class="btn" value="cancel">キャンセル</button>
+        <button type="submit" class="btn btn-danger" id="confirm-ok" value="ok">削除</button>
+      </div>
+    </form>
+  </dialog>
+
+  <div id="toast" class="toast" role="status" hidden></div>
+  <noscript><p class="noscript">JavaScript を有効にするとティア表を編集できます。</p></noscript>
+
+  <script src="js/store.js"></script>
+  <script src="js/images.js"></script>
+  <script src="js/render.js"></script>
+  <script src="js/drag.js"></script>
+  <script src="js/export.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
